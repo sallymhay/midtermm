@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe Script', 'Brush Script MT', 'Comic Sans MS', cursive;
+    background: #1a0b1f;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+  .box {
+    max-width: 420px;
+    width: 100%;
+    background: #2a1233;
+    border-radius: 1.8rem;
+    box-shadow: 0 18px 40px rgba(60, 0, 90, .5);
+    padding: 2rem;
+    border: 2px solid #5c2d6e;
+  }
+  .title {
+    color: #e8c9f0;
+    text-align: center;
+    border-bottom: 2px dashed #8a4fa8;
+    padding-bottom: .7rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+  .fld { margin-bottom: .85rem; }
+  .fld label { display: block; font-size: .88rem; color: #d8b5e8; margin-bottom: .25rem; }
+  .fld input {
+    width: 100%;
+    padding: .65rem .9rem;
+    font-size: .9rem;
+    border: 1.5px solid #6a3d80;
+    border-radius: .8rem;
+    background: #1f0b28;
+    outline: none;
+    color: #f0ddf6;
+    font-family: inherit;
+  }
+  .fld input:focus { border-color: #b06fcf; box-shadow: 0 0 0 3px rgba(176, 111, 207, .25); }
+  .btn {
+    width: 100%;
+    padding: .7rem;
+    font-size: .95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    background: #7a3d99;
+    color: #fff;
+    cursor: pointer;
+    margin-top: .4rem;
+    font-family: inherit;
+    transition: .2s;
+  }
+  .btn:hover { background: #964fc0; }
+  .note { margin-top: .9rem; min-height: 2rem; font-size: .88rem; padding: .5rem .8rem; border-radius: 1rem; text-align: center; }
+  .good { background: #26402c; color: #b7ecc6; border-left: 5px solid #4fc774; }
+  .bad { background: #4a1c1c; color: #f3c2c2; border-left: 5px solid #d45b5b; }
+  .gone { display: none !important; }
+  .done {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    font-size: 1.15rem;
+    text-align: center;
+    background: #26402c;
+    color: #b7ecc6;
+    border: 1px solid #4fc774;
+  }
+  .alt { margin-top: 1.2rem; text-align: center; font-size: .88rem; color: #d8b5e8; }
+  .alt a { color: #dcb5ea; font-weight: 600; text-decoration: none; }
+  .alt a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 class="title">Login</h1>
+
+  <div id="formArea">
+    <div class="fld"><label>Username</label><input type="text" id="b1" autocomplete="off"></div>
+    <div class="fld"><label>Password</label><input type="password" id="b2"></div>
+    <button class="btn" id="b3">Login</button>
+    <div id="b4" class="note"></div>
+  </div>
+
+  <div class="alt">Don't have an account? <a href="register.html">Register here</a></div>
+
+  <div id="win" class="done gone"></div>
+</div>
+
+<script>
+  (function() {
+    const storedUser = localStorage.getItem('regUser') || '';
+    const storedPass = localStorage.getItem('regPass') || '';
+
+    function say(box, text, cls) {
+      box.textContent = text;
+      box.className = 'note ' + cls;
+    }
+
+    document.getElementById('b3').addEventListener('click', function() {
+      const user = document.getElementById('b1').value.trim();
+      const pass = document.getElementById('b2').value;
+      const out  = document.getElementById('b4');
+
+      if (!user || !pass) { say(out, 'Both fields are required.', 'bad'); return; }
+      if (!storedUser || !storedPass) { say(out, 'No registered user. Please register first.', 'bad'); return; }
+      if (user !== storedUser || pass !== storedPass) { say(out, 'Invalid credentials.', 'bad'); return; }
+
+      const win = document.getElementById('win');
+      win.textContent = 'Login Successful!';
+      win.classList.remove('gone');
+      document.getElementById('formArea').classList.add('gone');
+    });
+  })();
+</script>
+</body>
+</html>

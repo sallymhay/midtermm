@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe Script', 'Brush Script MT', 'Comic Sans MS', cursive;
+    background: #1a0b1f;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+  .box {
+    max-width: 420px;
+    width: 100%;
+    background: #2a1233;
+    border-radius: 1.8rem;
+    box-shadow: 0 18px 40px rgba(60, 0, 90, .5);
+    padding: 2rem;
+    border: 2px solid #5c2d6e;
+  }
+  .title {
+    color: #e8c9f0;
+    text-align: center;
+    border-bottom: 2px dashed #8a4fa8;
+    padding-bottom: .7rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+  .fld { margin-bottom: .85rem; }
+  .fld label { display: block; font-size: .88rem; color: #d8b5e8; margin-bottom: .25rem; }
+  .fld input {
+    width: 100%;
+    padding: .65rem .9rem;
+    font-size: .9rem;
+    border: 1.5px solid #6a3d80;
+    border-radius: .8rem;
+    background: #1f0b28;
+    outline: none;
+    color: #f0ddf6;
+    font-family: inherit;
+  }
+  .fld input:focus { border-color: #b06fcf; box-shadow: 0 0 0 3px rgba(176, 111, 207, .25); }
+  .btn {
+    width: 100%;
+    padding: .7rem;
+    font-size: .95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    background: #7a3d99;
+    color: #fff;
+    cursor: pointer;
+    margin-top: .4rem;
+    font-family: inherit;
+    transition: .2s;
+  }
+  .btn:hover { background: #964fc0; }
+  .note { margin-top: .9rem; min-height: 2rem; font-size: .88rem; padding: .5rem .8rem; border-radius: 1rem; text-align: center; }
+  .good { background: #26402c; color: #b7ecc6; border-left: 5px solid #4fc774; }
+  .bad { background: #4a1c1c; color: #f3c2c2; border-left: 5px solid #d45b5b; }
+  .info {
+    margin-top: 1rem;
+    padding: .9rem 1rem;
+    background: #1f0b28;
+    border-radius: 1rem;
+    border: 1px dashed #8a4fa8;
+    font-size: .88rem;
+    color: #e8c9f0;
+    display: none;
+  }
+  .info.show { display: block; }
+  .alt { margin-top: 1.2rem; text-align: center; font-size: .88rem; color: #d8b5e8; }
+  .alt a { color: #dcb5ea; font-weight: 600; text-decoration: none; }
+  .alt a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 class="title">Register</h1>
+
+  <div class="fld"><label>Username</label><input type="text" id="a1" autocomplete="off"></div>
+  <div class="fld"><label>Password</label><input type="password" id="a2"></div>
+  <div class="fld"><label>Confirm Password</label><input type="password" id="a3"></div>
+  <button class="btn" id="a4">Register</button>
+  <div id="a5" class="note"></div>
+  <div id="a6" class="info"></div>
+
+  <div class="alt">Already have an account? <a href="login.html">Login here</a></div>
+</div>
+
+<script>
+  (function() {
+    function say(box, text, cls) {
+      box.textContent = text;
+      box.className = 'note ' + cls;
+    }
+
+    document.getElementById('a4').addEventListener('click', function() {
+      const user = document.getElementById('a1').value.trim();
+      const pass = document.getElementById('a2').value;
+      const conf = document.getElementById('a3').value;
+      const out  = document.getElementById('a5');
+      const det  = document.getElementById('a6');
+
+      if (!user || !pass || !conf) { say(out, 'All fields are required.', 'bad'); return; }
+      if (pass !== conf) { say(out, 'Passwords do not match.', 'bad'); return; }
+
+      localStorage.setItem('regUser', user);
+      localStorage.setItem('regPass', pass);
+
+      say(out, 'Registration successful!', 'good');
+      det.innerHTML = '<strong>Registered user:</strong> ' + user + '<br><strong>Password:</strong> ' + '•'.repeat(Math.min(pass.length, 12));
+      det.classList.add('show');
+    });
+  })();
+</script>
+</body>
+</html>
